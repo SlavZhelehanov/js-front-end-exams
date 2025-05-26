@@ -70,3 +70,24 @@ orderBtn.addEventListener("click", async e => {
         }
     }
 });
+list.addEventListener("click", e => {
+    if (e.target.className === "change-btn") {
+        const container = e.target.parentElement;
+        const name = document.getElementById("name");
+        const date = document.getElementById("date");
+        const quantity = document.getElementById("quantity");
+        const h2Name = container.querySelector("h2").textContent;
+        const h3Date = container.querySelector("h3:nth-child(2)").textContent;
+        const h3Quantity = container.querySelector("h3:nth-child(3)").textContent;
+
+        tmpId = container.id;
+        name.value = h2Name;
+        date.value = h3Date;
+        quantity.value = h3Quantity;
+        orderBtn.disabled = true;
+        editOrder.disabled = false;
+        container.remove();
+    } else if (e.target.className === "done-btn") {
+        e.target.parentElement.remove();
+    }
+});
