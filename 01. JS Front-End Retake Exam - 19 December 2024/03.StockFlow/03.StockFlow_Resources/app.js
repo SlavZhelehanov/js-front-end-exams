@@ -9,28 +9,35 @@ let tmpId;
 async function getData() {
     const response = await fetch("http://localhost:3030/jsonstore/orders");
 
-    if (!response.ok) {
-        const errMsg = await response.json();
-        throw new Error(errMsg.message);
-    }
+    // if (!response.ok) {
+    //     let errMsg;
+    //     try {
+    //         errMsg = await response.json();
+    //     } catch {
+    //         errMsg = { message: await response.text() || response.statusText };
+    //     }
+    //     throw new Error(errMsg.message);
+    // }    
 
-    return response.json();
-}
+    const data = await response.json();
 
-loadOrders.addEventListener("click", async () => {
-    const data = await getData();
+    list.innerHTML = "";
 
     for (const order in data) {
         list.innerHTML += `
-        <div class="container" id="${data[order]._id}">
-            <h2>${data[order].name}</h2>
-            <h3>${data[order].date}</h3>
-            <h3>${data[order].quantity}</h3>
-            <button class="change-btn">Change</button>
-            <button class="done-btn">Done</button>
-        </div>
+            <div class="container" id="${data[order]._id}">
+                <h2>${data[order].name}</h2>
+                <h3>${data[order].date}</h3>
+                <h3>${data[order].quantity}</h3>
+                <button class="change-btn">Change</button>
+                <button class="done-btn">Done</button>
+            </div>
         `;
     }
+}
+
+loadOrders.addEventListener("click", async () => {
+    await getData();
 });
 
 orderBtn.addEventListener("click", async e => {
@@ -56,23 +63,11 @@ orderBtn.addEventListener("click", async e => {
         date.value = '';
         quantity.value = '';
 
-        const data = await getData();
-
-        for (const order in data) {
-            list.innerHTML += `
-            <div class="container" id="${data[order]._id}">
-                <h2>${data[order].name}</h2>
-                <h3>${data[order].date}</h3>
-                <h3>${data[order].quantity}</h3>
-                <button class="change-btn">Change</button>
-                <button class="done-btn">Done</button>
-            </div>
-        `;
-        }
+        await getData();
     }
 });
 
-list.addEventListener("click", e => {
+list.addEventListener("click", async e => {
     if (e.target.className === "change-btn") {
         const container = e.target.parentElement;
         const name = document.getElementById("name");
@@ -90,6 +85,20 @@ list.addEventListener("click", e => {
         editOrder.disabled = false;
         container.remove();
     } else if (e.target.className === "done-btn") {
+        const container = e.target.parentElement;
+
+        tmpId = container.id;
+
+        const deleteRequest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        // if (!deleteRequest.ok) {
+        //     const errMsg = await deleteRequest.json();
+        //     throw new Error(errMsg.message);
+        // }
+
         e.target.parentElement.remove();
     }
 });
@@ -99,38 +108,27 @@ editOrder.addEventListener("click", async e => {
     const name = document.getElementById("name");
     const date = document.getElementById("date");
     const quantity = document.getElementById("quantity");
+    console.log(tmpId);
+
 
     if (name.value != '' && date.value != '' && quantity.value != '') {
-        const putReuiest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {
+        const putRequest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {
             method: "PUT",
             header: { "Content-Type": "application/json" },
             body: JSON.stringify({ name: name.value, date: date.value, quantity: quantity.value })
         });
 
-        if (!putReuiest.ok) {
-            const errMsg = await putReuiest.json();
-            throw new Error(errMsg.message);
-        }
+        // if (!putRequest.ok) {
+        //     const errMsg = await putRequest.json();
+        //     throw new Error(errMsg.message);
+        // }
 
         name.value = '';
         date.value = '';
         quantity.value = '';
         orderBtn.disabled = false;
         editOrder.disabled = true;
-        tmpId = '';
-        
-        const data = await getData();
 
-        for (const order in data) {
-            list.innerHTML += `
-            <div class="container">
-                <h2>${data[order].name}</h2>
-                <h3>${data[order].date}</h3>
-                <h3>${data[order].quantity}</h3>
-                <button class="change-btn">Change</button>
-                <button class="done-btn">Done</button>
-            </div>
-        `;
-        }
+        await getData();
     }
 });
