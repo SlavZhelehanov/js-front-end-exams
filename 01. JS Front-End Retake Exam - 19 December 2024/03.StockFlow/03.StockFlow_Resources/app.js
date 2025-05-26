@@ -32,6 +32,7 @@ loadOrders.addEventListener("click", async () => {
         `;
     }
 });
+
 orderBtn.addEventListener("click", async e => {
     e.preventDefault();
 
@@ -70,6 +71,7 @@ orderBtn.addEventListener("click", async e => {
         }
     }
 });
+
 list.addEventListener("click", e => {
     if (e.target.className === "change-btn") {
         const container = e.target.parentElement;
@@ -89,5 +91,46 @@ list.addEventListener("click", e => {
         container.remove();
     } else if (e.target.className === "done-btn") {
         e.target.parentElement.remove();
+    }
+});
+
+editOrder.addEventListener("click", async e => {
+    e.preventDefault();
+    const name = document.getElementById("name");
+    const date = document.getElementById("date");
+    const quantity = document.getElementById("quantity");
+
+    if (name.value != '' && date.value != '' && quantity.value != '') {
+        const putReuiest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {
+            method: "PUT",
+            header: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name.value, date: date.value, quantity: quantity.value })
+        });
+
+        if (!putReuiest.ok) {
+            const errMsg = await putReuiest.json();
+            throw new Error(errMsg.message);
+        }
+
+        name.value = '';
+        date.value = '';
+        quantity.value = '';
+        orderBtn.disabled = false;
+        editOrder.disabled = true;
+        tmpId = '';
+        
+        const data = await getData();
+
+        for (const order in data) {
+            list.innerHTML += `
+            <div class="container">
+                <h2>${data[order].name}</h2>
+                <h3>${data[order].date}</h3>
+                <h3>${data[order].quantity}</h3>
+                <button class="change-btn">Change</button>
+                <button class="done-btn">Done</button>
+            </div>
+        `;
+        }
     }
 });
