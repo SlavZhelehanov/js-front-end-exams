@@ -6,6 +6,7 @@ function solve() {
     const location = document.getElementById("location");
     const nextBtn = document.getElementById("next-btn");
     const previewList = document.getElementById("preview-list");
+    const eventList = document.getElementById("event-list");
 
     nextBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -39,17 +40,21 @@ function solve() {
     previewList.addEventListener("click", e => {
         if (e.target.classList.contains("edit")) {
             const li = e.target.parentElement;
+
             email.value = li.querySelector("h4").textContent;
-            event.value = li.querySelectorAll("p")[0].textContent.split("\n").filter(f => f.trim() != '')[1].trim();
-            location.value = li.querySelectorAll("p")[1].textContent.split("\n").filter(f => f.trim() != '')[1].trim();            
+            event.value = li.querySelectorAll("p")[0].innerText.split(":")[1].trim();
+            location.value = li.querySelectorAll("p")[1].innerText.split(":")[1].trim();
 
             previewList.innerHTML = '';
             nextBtn.disabled = false;
-        } //else if (e.target.classList.contains("apply")) {
-        //     const li = e.target.parentElement;
-        //     li.querySelector(".edit").remove();
-        //     li.querySelector(".apply").remove();
-        //     document.getElementById("application").appendChild(li);
-        // }
+        } else if (e.target.classList.contains("apply")) {
+            const li = e.target.parentElement;
+
+            li.querySelector(".edit").remove();
+            li.querySelector(".apply").remove();
+            eventList.innerHTML += li.outerHTML;
+            li.remove();
+            nextBtn.disabled = false;
+        }
     })
 }
