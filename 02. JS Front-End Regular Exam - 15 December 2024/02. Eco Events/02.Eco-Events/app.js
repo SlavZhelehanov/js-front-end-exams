@@ -35,4 +35,21 @@ function solve() {
             location.value = '';
         }
     });
+
+    previewList.addEventListener("click", e => {
+        if (e.target.classList.contains("edit")) {
+            const li = e.target.parentElement;
+            email.value = li.querySelector("h4").textContent;
+            event.value = li.querySelectorAll("p")[0].textContent.split("\n").filter(f => f.trim() != '')[1].trim();
+            location.value = li.querySelectorAll("p")[1].textContent.split("\n").filter(f => f.trim() != '')[1].trim();            
+
+            previewList.innerHTML = '';
+            nextBtn.disabled = false;
+        } //else if (e.target.classList.contains("apply")) {
+        //     const li = e.target.parentElement;
+        //     li.querySelector(".edit").remove();
+        //     li.querySelector(".apply").remove();
+        //     document.getElementById("application").appendChild(li);
+        // }
+    })
 }
