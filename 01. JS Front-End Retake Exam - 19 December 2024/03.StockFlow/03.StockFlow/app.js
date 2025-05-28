@@ -108,8 +108,6 @@ editOrder.addEventListener("click", async e => {
     const name = document.getElementById("name");
     const date = document.getElementById("date");
     const quantity = document.getElementById("quantity");
-    console.log(tmpId);
-
 
     if (name.value != '' && date.value != '' && quantity.value != '') {
         const putRequest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {

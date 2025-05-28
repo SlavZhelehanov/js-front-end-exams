@@ -88,11 +88,29 @@ list.addEventListener("click", async e => {
             headers: { "Content-Type": "application/json" }
         });
 
-        // if (!deleteRequest.ok) {
-        //     const errMsg = await deleteRequest.json();
-        //     throw new Error(errMsg.message);
-        // }
-
         e.target.parentElement.remove();
+    }
+});
+
+editWorkoutBtn.addEventListener("click", async e => {
+    e.preventDefault();
+    const workout = document.getElementById("workout");
+    const location = document.getElementById("location");
+    const date = document.getElementById("date");
+
+    if (workout.value != '' && date.value != '' && location.value != '') {
+        await fetch(`${API_URL}${tmpId}`, {
+            method: "PUT",
+            header: { "Content-Type": "application/json" },
+            body: JSON.stringify({ workout: workout.value, date: date.value, location: location.value })
+        });
+
+        workout.value = '';
+        date.value = '';
+        location.value = '';
+        addWorkoutBtn.disabled = false;
+        editWorkoutBtn.disabled = true;
+
+        await getWorkouts();
     }
 });
