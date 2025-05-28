@@ -1,6 +1,7 @@
 const API_URL = "http://localhost:3030/jsonstore/workout/";
 const list = document.getElementById("list");
 const loadWorkoutBtn = document.getElementById("load-workout");
+const addWorkoutBtn = document.getElementById("add-workout");
 
 async function getWorkouts() {
     try {
@@ -34,3 +35,25 @@ async function getWorkouts() {
 }
 
 loadWorkoutBtn.addEventListener("click", getWorkouts);
+
+addWorkoutBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    const workout = document.getElementById("workout");
+    const location = document.getElementById("location");
+    const date = document.getElementById("date");
+
+    if (workout.value != '' && location.value != '' && date.value != '') {
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ workout: workout.value, location: location.value, date: date.value })
+        });
+
+        workout.value = '';
+        location.value = '';
+        date.value = '';
+
+        await getWorkouts();
+    }
+});
