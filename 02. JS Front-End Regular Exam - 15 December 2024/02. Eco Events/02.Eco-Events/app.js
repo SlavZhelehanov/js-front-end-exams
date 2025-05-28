@@ -42,8 +42,16 @@ function solve() {
             const li = e.target.parentElement;
 
             email.value = li.querySelector("h4").textContent;
-            event.value = li.querySelectorAll("p")[0].innerText.split(":")[1].trim();
-            location.value = li.querySelectorAll("p")[1].innerText.split(":")[1].trim();
+            // event.value = li.querySelectorAll("p")[0].innerText.split(":")[1].trim();
+            // location.value = li.querySelectorAll("p")[1].innerText.split(":")[1].trim();
+
+            const applicationItem = document.querySelector('.application');
+
+            // Get all <p> tags inside the application item
+            const paragraphs = applicationItem.querySelectorAll('p');
+
+            event.value = paragraphs[0].childNodes[2].textContent.trim();
+            location.value = paragraphs[1].childNodes[2].textContent.trim();
 
             previewList.innerHTML = '';
             nextBtn.disabled = false;
