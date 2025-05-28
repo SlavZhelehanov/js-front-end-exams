@@ -78,4 +78,21 @@ list.addEventListener("click", async e => {
         addWorkoutBtn.disabled = true;
         editWorkoutBtn.disabled = false;
         container.remove();
+    } else if (e.target.className === "delete-btn") {
+        const container = e.target.parentElement.parentElement;
+
+        tmpId = container.id;
+
+        const deleteRequest = await fetch(`${API_URL}${tmpId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        // if (!deleteRequest.ok) {
+        //     const errMsg = await deleteRequest.json();
+        //     throw new Error(errMsg.message);
+        // }
+
+        e.target.parentElement.remove();
+    }
 });
