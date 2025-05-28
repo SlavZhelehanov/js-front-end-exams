@@ -2,6 +2,9 @@ const API_URL = "http://localhost:3030/jsonstore/workout/";
 const list = document.getElementById("list");
 const loadWorkoutBtn = document.getElementById("load-workout");
 const addWorkoutBtn = document.getElementById("add-workout");
+const editWorkoutBtn = document.getElementById("edit-workout");
+
+let tmpId;
 
 async function getWorkouts() {
     try {
@@ -56,4 +59,23 @@ addWorkoutBtn.addEventListener("click", async e => {
 
         await getWorkouts();
     }
+});
+
+list.addEventListener("click", async e => {
+    if (e.target.className === "change-btn") {
+        const container = e.target.parentElement.parentElement;
+        const workout = document.getElementById("workout");
+        const date = document.getElementById("date");
+        const location = document.getElementById("location");
+        const h2Workout = container.querySelector("h2").textContent;
+        const h3Date = container.querySelector("h3:nth-child(2)").textContent;
+        const h3Location = container.querySelector("h3:nth-child(3)").textContent;
+
+        tmpId = container.id;
+        workout.value = h2Workout;
+        date.value = h3Date;
+        location.value = h3Location;
+        addWorkoutBtn.disabled = true;
+        editWorkoutBtn.disabled = false;
+        container.remove();
 });
