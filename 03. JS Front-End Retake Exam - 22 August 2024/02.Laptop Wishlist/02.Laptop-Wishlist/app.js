@@ -3,6 +3,7 @@ window.addEventListener("load", solve);
 function solve() {
     const addBtn = document.getElementById("add-btn");
     const checkList = document.getElementById("check-list");
+    const laptopsList = document.getElementById("laptops-list");
 
     addBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -44,8 +45,22 @@ function solve() {
             price.value = +oldPrice.split(" ")[1].split("$")[0];
             addBtn.disabled = false;
             checkList.innerHTML = '';
-        } else {
+        } else if ([...e.target.classList].includes("ok")){
+            const article = document.querySelectorAll(".laptop-item>article>p");
+            const [model, storage, price] = [article[0].textContent, article[1].textContent, article[2].textContent];
 
+            laptopsList.innerHTML += `
+                <li class="laptop-item">
+                    <article>
+                        <p>${model}</p>
+                        <p>Memory: ${storage.split(" ")[1]} TB</p>
+                        <p>Price: ${price.split(" ")[1].split("$")[0]}$</p>
+                    </article>
+                </li>
+            `;
+            
+            addBtn.disabled = false;
+            checkList.innerHTML = '';
         }
     });
 }
