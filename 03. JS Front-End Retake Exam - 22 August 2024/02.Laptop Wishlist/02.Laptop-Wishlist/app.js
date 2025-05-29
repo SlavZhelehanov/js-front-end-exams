@@ -45,7 +45,7 @@ function solve() {
             price.value = +oldPrice.split(" ")[1].split("$")[0];
             addBtn.disabled = false;
             checkList.innerHTML = '';
-        } else if ([...e.target.classList].includes("ok")){
+        } else if ([...e.target.classList].includes("ok")) {
             const article = document.querySelectorAll(".laptop-item>article>p");
             const [model, storage, price] = [article[0].textContent, article[1].textContent, article[2].textContent];
 
@@ -58,9 +58,11 @@ function solve() {
                     </article>
                 </li>
             `;
-            
+
             addBtn.disabled = false;
             checkList.innerHTML = '';
         }
     });
+
+    document.querySelector(".btn.clear").addEventListener("click", () => { location.reload(); });
 }
