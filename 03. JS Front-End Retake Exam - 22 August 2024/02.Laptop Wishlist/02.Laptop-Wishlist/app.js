@@ -30,4 +30,22 @@ function solve() {
             addBtn.disabled = true;
         }
     });
+
+    checkList.addEventListener("click", e => {
+        if ([...e.target.classList].includes("edit")) {
+            const article = document.querySelectorAll(".laptop-item>article>p");
+            const laptopModel = document.getElementById("laptop-model");
+            const storage = document.getElementById("storage");
+            const price = document.getElementById("price");
+            const [oldModel, oldStorage, oldPrice] = [article[0].textContent, article[1].textContent, article[2].textContent];
+
+            laptopModel.value = oldModel;
+            storage.value = +oldStorage.split(" ")[1];
+            price.value = +oldPrice.split(" ")[1].split("$")[0];
+            addBtn.disabled = false;
+            checkList.innerHTML = '';
+        } else {
+
+        }
+    });
 }
