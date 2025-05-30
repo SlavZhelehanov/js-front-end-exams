@@ -53,7 +53,6 @@ addAppointmentBtn.addEventListener("click", async e => {
         model.value = '';
         service.value = '';
         date.value = '';
-
         await fetchAllAppointments();
     }
 });
@@ -76,11 +75,32 @@ appointmentsList.addEventListener("click", async e => {
         const li = e.target.closest("li.appointment");
 
         tempId = li.id;
+        console.log(tempId);
+
         await fetch(`${API_URL}${tempId}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" }
         });
         tempId = '';
         li.remove();
+        await fetchAllAppointments();
+    }
+});
+
+editAppointmentBtn.addEventListener("click", async () => {
+    if (model.value != '' && service.value != '' && date.value != '') {
+        await fetch(`${API_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ model: model.value, date: date.value, service: service.value, _id: tempId })
+        });
+
+        model.value = '';
+        date.value = '';
+        service.value = '';
+        await fetchAllAppointments();
+        tempId = '';
+        addAppointmentBtn.disabled = true;
+        editAppointmentBtn.disabled = false;
     }
 });
