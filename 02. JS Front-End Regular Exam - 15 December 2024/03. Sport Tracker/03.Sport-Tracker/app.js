@@ -102,7 +102,7 @@ editWorkoutBtn.addEventListener("click", async e => {
         await fetch(`${API_URL}${tmpId}`, {
             method: "PUT",
             header: { "Content-Type": "application/json" },
-            body: JSON.stringify({ workout: workout.value, date: date.value, location: location.value })
+            body: JSON.stringify({ workout: workout.value, date: date.value, location: location.value, _id: tmpId })
         });
 
         workout.value = '';

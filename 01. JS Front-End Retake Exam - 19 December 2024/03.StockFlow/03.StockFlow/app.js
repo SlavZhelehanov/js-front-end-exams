@@ -113,7 +113,7 @@ editOrder.addEventListener("click", async e => {
         const putRequest = await fetch(`http://localhost:3030/jsonstore/orders/${tmpId}`, {
             method: "PUT",
             header: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: name.value, date: date.value, quantity: quantity.value })
+            body: JSON.stringify({ name: name.value, date: date.value, quantity: quantity.value, _id: tmpId })
         });
 
         // if (!putRequest.ok) {
