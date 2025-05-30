@@ -58,7 +58,7 @@ addAppointmentBtn.addEventListener("click", async e => {
     }
 });
 
-appointmentsList.addEventListener("click", e => {
+appointmentsList.addEventListener("click", async e => {
     if (e.target.matches(".change-btn")) {
         const li = e.target.closest("li.appointment");
 
@@ -71,7 +71,16 @@ appointmentsList.addEventListener("click", e => {
         tempId = li.id;
         addAppointmentBtn.disabled = true;
         editAppointmentBtn.disabled = false;
-    } else {
+        li.remove();
+    } else if (e.target.matches(".delete-btn")) {
+        const li = e.target.closest("li.appointment");
 
+        tempId = li.id;
+        await fetch(`${API_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        li.remove();
     }
 });
