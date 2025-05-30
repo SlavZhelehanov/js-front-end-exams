@@ -1,7 +1,13 @@
 const API_URL = "http://localhost:3030/jsonstore/appointments/";
 const appointmentsList = document.getElementById("appointments-list");
 const loadAppointmentsBtn = document.getElementById("load-appointments");
-const addAppointmentsBtn = document.getElementById("add-appointment");
+const model = document.getElementById("car-model");
+const service = document.getElementById("car-service");
+const date = document.getElementById("date");
+const addAppointmentBtn = document.getElementById("add-appointment");
+const editAppointmentBtn = document.getElementById("edit-appointment");
+
+let tempId;
 
 async function fetchAllAppointments() {
     try {
@@ -34,12 +40,8 @@ async function fetchAllAppointments() {
 
 loadAppointmentsBtn.addEventListener("click", fetchAllAppointments);
 
-addAppointmentsBtn.addEventListener("click", async e => {
+addAppointmentBtn.addEventListener("click", async e => {
     e.preventDefault();
-
-    const model = document.getElementById("car-model");
-    const service = document.getElementById("car-service");
-    const date = document.getElementById("date");
 
     if (model.value != '' && service.value != '' && date.value != '') {
         await fetch(API_URL, {
@@ -53,5 +55,23 @@ addAppointmentsBtn.addEventListener("click", async e => {
         date.value = '';
 
         await fetchAllAppointments();
+    }
+});
+
+appointmentsList.addEventListener("click", e => {
+    if (e.target.matches(".change-btn")) {
+        const li = e.target.closest("li.appointment");
+
+        const carModel = li.querySelector("h2").textContent;
+        const [appDate, appService] = li.querySelectorAll("h3");
+
+        model.value = carModel;
+        date.value = appDate.textContent;
+        service.value = appService.textContent;
+        tempId = li.id;
+        addAppointmentBtn.disabled = true;
+        editAppointmentBtn.disabled = false;
+    } else {
+
     }
 });
