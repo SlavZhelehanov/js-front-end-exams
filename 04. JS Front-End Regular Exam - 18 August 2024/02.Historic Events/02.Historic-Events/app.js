@@ -49,4 +49,11 @@ function solve() {
             archiveList.append(li);
         }
     });
+
+    archiveList.addEventListener("click", e => {
+        if (e.target.classList.contains("archive-btn")) {
+            archiveList.innerHTML = '';
+            addBtn.disabled = false;
+        }
+    });
 }
