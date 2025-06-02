@@ -6,6 +6,7 @@ function solve() {
     const description = document.getElementById("description");
     const addBtn = document.getElementById("add-btn");
     const previewList = document.getElementById("preview-list");
+    const archiveList = document.getElementById("archive-list");
 
     addBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -33,14 +34,19 @@ function solve() {
     previewList.addEventListener("click", e => {
         if (e.target.classList.contains("edit-btn")) {
             const [pName, pTime, pDescription] = previewList.querySelectorAll("article>p");
-            
+
             name.value = pName.textContent;
             time.value = pTime.textContent;
             description.value = pDescription.textContent;
             addBtn.disabled = false;
             previewList.innerHTML = '';
-        } else if (false) {
+        } else if (e.target.classList.contains("next-btn")) {
+            previewList.querySelector(".buttons").remove();
 
+            const li = previewList.querySelector("li");
+
+            li.innerHTML += `<button class="archive-btn">Archive</button>`;
+            archiveList.append(li);
         }
     });
 }
