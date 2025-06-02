@@ -29,4 +29,18 @@ function solve() {
             addBtn.disabled = true;
         }
     });
+
+    previewList.addEventListener("click", e => {
+        if (e.target.classList.contains("edit-btn")) {
+            const [pName, pTime, pDescription] = previewList.querySelectorAll("article>p");
+            
+            name.value = pName.textContent;
+            time.value = pTime.textContent;
+            description.value = pDescription.textContent;
+            addBtn.disabled = false;
+            previewList.innerHTML = '';
+        } else if (false) {
+
+        }
+    });
 }
