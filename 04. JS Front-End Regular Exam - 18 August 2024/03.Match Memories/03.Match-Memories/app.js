@@ -22,9 +22,9 @@ async function fetchAllMatches() {
 
         const data = await response.json();
 
-        for (const [id, { guest, host, score }] of Object.entries(data)) {
+        for (const [id, { guest, host, score, _id }] of Object.entries(data)) {
             list.innerHTML += `
-                <li class="match" id="${id}">
+                <li class="match" id="${_id}">
                     <div class="info">
                         <p>${host}</p>
                         <p>${score}</p>
@@ -46,26 +46,28 @@ addMatch.addEventListener("click", async e => {
     e.preventDefault();
 
     if (host.value != '' && guest.value != '' && score.value != '') {
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: { "Contet-Type": "application/json" },
-            body: JSON.stringify({ host: host.value, guest: guest.value, score: score.value })
-        });
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ host: host.value, guest: guest.value, score: score.value })
+            });
 
-        host.value = '';
-        guest.value = '';
-        score.value = '';
+            host.value = '';
+            guest.value = '';
+            score.value = '';
 
-        if (!response.ok) {
-            const err = await response.json();
-            throw new Error(err.message);
-        }
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.message);
+            }
 
-        await fetchAllMatches();
+            await fetchAllMatches();
+        } catch (error) { console.error(error); }
     }
 });
 
-list.addEventListener("click", e => {
+list.addEventListener("click", async e => {
     if (e.target.classList.contains("change-btn")) {
         const li = e.target.parentNode.parentNode;
         const [p1, p2, p3] = li.querySelectorAll(".info>p");
@@ -77,5 +79,23 @@ list.addEventListener("click", e => {
         li.remove();
         addMatch.disabled = true;
         editMatch.disabled = false;
+
+editMatch.addEventListener("click", async () => {
+    if (host.value != '' && guest.value != '' && score.value != '') {
+        try {
+            await fetch(`${API_URL}${tmpId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ host: host.value, guest: guest.value, score: score.value, _id: tmpId })
+            });
+
+            host.value = '';
+            guest.value = '';
+            score.value = '';
+            await fetchAllMatches();
+            tmpId = '';
+            addMatch.disabled = false;
+            editMatch.disabled = true;
+        } catch (error) { console.error(error); }
     }
 });

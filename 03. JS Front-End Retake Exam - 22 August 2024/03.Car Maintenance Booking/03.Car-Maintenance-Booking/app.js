@@ -75,7 +75,6 @@ appointmentsList.addEventListener("click", async e => {
         const li = e.target.closest("li.appointment");
 
         tempId = li.id;
-        console.log(tempId);
 
         await fetch(`${API_URL}${tempId}`, {
             method: "DELETE",
@@ -100,7 +99,7 @@ editAppointmentBtn.addEventListener("click", async () => {
         service.value = '';
         await fetchAllAppointments();
         tempId = '';
-        addAppointmentBtn.disabled = true;
-        editAppointmentBtn.disabled = false;
+        addAppointmentBtn.disabled = false;
+        editAppointmentBtn.disabled = true;
     }
 });
