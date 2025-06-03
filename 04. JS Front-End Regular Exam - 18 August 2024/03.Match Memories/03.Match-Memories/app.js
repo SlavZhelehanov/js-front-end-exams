@@ -79,6 +79,20 @@ list.addEventListener("click", async e => {
         li.remove();
         addMatch.disabled = true;
         editMatch.disabled = false;
+    } else if (e.target.classList.contains("delete-btn")) {
+        const li = e.target.parentNode.parentNode;
+
+        tmpId = li.id;
+
+        await fetch(`${API_URL}${tmpId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tmpId = '';
+        li.remove();
+        await fetchAllMatches();
+    }
+});
 
 editMatch.addEventListener("click", async () => {
     if (host.value != '' && guest.value != '' && score.value != '') {
