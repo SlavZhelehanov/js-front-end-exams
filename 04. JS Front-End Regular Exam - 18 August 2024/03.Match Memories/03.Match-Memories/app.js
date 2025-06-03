@@ -7,6 +7,8 @@ const score = document.getElementById("score");
 const addMatch = document.getElementById("add-match");
 const editMatch = document.getElementById("edit-match");
 
+let tmpId;
+
 async function fetchAllMatches() {
     try {
         const response = await fetch(API_URL);
@@ -60,5 +62,20 @@ addMatch.addEventListener("click", async e => {
         }
 
         await fetchAllMatches();
+    }
+});
+
+list.addEventListener("click", e => {
+    if (e.target.classList.contains("change-btn")) {
+        const li = e.target.parentNode.parentNode;
+        const [p1, p2, p3] = li.querySelectorAll(".info>p");
+
+        host.value = p1.textContent;
+        score.value = p2.textContent;
+        guest.value = p3.textContent;
+        tmpId = li.id;
+        li.remove();
+        addMatch.disabled = true;
+        editMatch.disabled = false;
     }
 });
