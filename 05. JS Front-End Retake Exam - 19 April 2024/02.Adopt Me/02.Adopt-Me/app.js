@@ -46,7 +46,11 @@ function solve() {
 
             e.target.parentNode.remove();
             li.innerHTML += `<button class="clear-btn">Clear</button>`;
-            adoptedList.append(li);
+            adoptedList.appendChild(li);
         }
+    });
+
+    adoptedList.addEventListener("click", e => {
+        if (e.target.classList.contains("clear-btn")) e.target.parentNode.remove();
     });
 }
