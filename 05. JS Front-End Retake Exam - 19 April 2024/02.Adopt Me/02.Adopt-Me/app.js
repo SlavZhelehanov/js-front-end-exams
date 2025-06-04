@@ -6,6 +6,7 @@ function solve() {
     const age = document.getElementById("age");
     const gender = document.getElementById("gender");
     const adoptionInfo = document.getElementById("adoption-info");
+    const adoptedList = document.getElementById("adopted-list");
 
     adoptBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -40,8 +41,12 @@ function solve() {
             age.value = pAge.textContent.split(":")[1];
             gender.value = pGender.textContent.split(":")[1];
             li.remove();
-        } else {
+        } else if (e.target.classList.contains("done-btn")) {
+            const li = e.target.parentNode.parentNode;
 
+            e.target.parentNode.remove();
+            li.innerHTML += `<button class="clear-btn">Clear</button>`;
+            adoptedList.append(li);
         }
     });
 }
