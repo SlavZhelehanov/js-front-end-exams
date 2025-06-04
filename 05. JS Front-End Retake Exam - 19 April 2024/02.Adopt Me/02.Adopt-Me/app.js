@@ -11,7 +11,7 @@ function solve() {
         e.preventDefault();
 
         if (type.value != '' && age.value != '' && gender.value != '') {
-            adoptionInfo.innerHTML = `
+            adoptionInfo.innerHTML += `
                 <li>
                     <article>
                         <p>Pet:${type.value}</p>
@@ -24,6 +24,24 @@ function solve() {
                     </div>
                 </li>
             `;
+
+            type.value = '';
+            age.value = '';
+            gender.value = '';
+        }
+    });
+
+    adoptionInfo.addEventListener("click", e => {
+        if (e.target.classList.contains("edit-btn")) {
+            const li = e.target.parentNode.parentNode;
+            const [pPet, pGender, pAge] = li.querySelectorAll("article>p");
+
+            type.value = pPet.textContent.split(":")[1];
+            age.value = pAge.textContent.split(":")[1];
+            gender.value = pGender.textContent.split(":")[1];
+            li.remove();
+        } else {
+
         }
     });
 }
