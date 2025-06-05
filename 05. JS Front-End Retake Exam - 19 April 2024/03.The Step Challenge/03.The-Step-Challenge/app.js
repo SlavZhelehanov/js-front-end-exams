@@ -2,6 +2,10 @@ const API_URL = "http://localhost:3030/jsonstore/records/";
 
 const list = document.getElementById("list");
 const loadRrecords = document.getElementById("load-records");
+const addRecordBtn = document.getElementById("add-record");
+const name = document.getElementById("p-name");
+const steps = document.getElementById("steps");
+const calories = document.getElementById("calories");
 
 async function fetchData() {
     try {
@@ -35,3 +39,27 @@ async function fetchData() {
 }
 
 loadRrecords.addEventListener("click", fetchData);
+
+addRecordBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (name.value != '' && steps.value != '' && calories.value != '') {
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name.value, steps: steps.value, calories: calories.value })
+            });
+
+            if (!response.ok) {
+                const msg = await response.json();
+                throw new Error(msg.message);
+            }
+
+            name.value = '';
+            steps.value = '';
+            calories.value = '';
+            await fetchData();
+        } catch (error) { console.error(error); }
+    }
+});
