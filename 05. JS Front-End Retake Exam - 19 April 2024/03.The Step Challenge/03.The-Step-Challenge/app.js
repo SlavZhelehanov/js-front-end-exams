@@ -3,6 +3,7 @@ const API_URL = "http://localhost:3030/jsonstore/records/";
 const list = document.getElementById("list");
 const loadRrecords = document.getElementById("load-records");
 const addRecordBtn = document.getElementById("add-record");
+const editRecordBtn = document.getElementById("edit-record");
 const name = document.getElementById("p-name");
 const steps = document.getElementById("steps");
 const calories = document.getElementById("calories");
@@ -61,5 +62,22 @@ addRecordBtn.addEventListener("click", async e => {
             calories.value = '';
             await fetchData();
         } catch (error) { console.error(error); }
+    }
+});
+
+list.addEventListener("click", async e => {
+    if (e.target.classList.contains("change-btn")) {
+        const li = e.target.parentNode.parentNode;
+
+        const [pName, pSteps, pCalories] = li.querySelectorAll(".info>p");
+
+        name.value = pName.textContent;
+        steps.value = pSteps.textContent;
+        calories.value = pCalories.textContent;
+        addRecordBtn.disabled = true;
+        editRecordBtn.disabled = false;
+        li.remove();
+    } else {
+
     }
 });
