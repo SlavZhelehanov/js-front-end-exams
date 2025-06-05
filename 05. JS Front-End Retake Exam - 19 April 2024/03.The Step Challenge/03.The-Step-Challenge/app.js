@@ -80,8 +80,23 @@ list.addEventListener("click", async e => {
         editRecordBtn.disabled = false;
         tempId = li.id;
         li.remove();
-    } else {
+    } else if (e.target.classList.contains("delete-btn")){
+        const li = e.target.parentNode.parentNode;
+        
+        try {
+            const response = await fetch(`${API_URL}${li.id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            });
 
+            if (!response.ok) {
+                const msg = await response.json();
+                throw new Error(msg.message);
+            }
+            
+            li.remove();
+            await fetchData();
+        } catch (error) { console.error(error); }
     }
 });
 
