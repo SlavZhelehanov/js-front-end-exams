@@ -8,6 +8,8 @@ const name = document.getElementById("p-name");
 const steps = document.getElementById("steps");
 const calories = document.getElementById("calories");
 
+let tempId;
+
 async function fetchData() {
     try {
         const response = await fetch(API_URL);
@@ -76,8 +78,35 @@ list.addEventListener("click", async e => {
         calories.value = pCalories.textContent;
         addRecordBtn.disabled = true;
         editRecordBtn.disabled = false;
+        tempId = li.id;
         li.remove();
     } else {
 
+    }
+});
+
+editRecordBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (name.value != '' && steps.value != '' && calories.value != '') {
+        try {
+            const response = await fetch(`${API_URL}${tempId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: name.value, steps: steps.value, calories: calories.value, _id: tempId })
+            });
+
+            if (!response.ok) {
+                const msg = await response.json();
+                throw new Error(msg.message);
+            }
+
+            name.value = '';
+            steps.value = '';
+            calories.value = '';
+            addRecordBtn.disabled = false;
+            editRecordBtn.disabled = true;
+            await fetchData();
+        } catch (error) { console.error(error); }
     }
 });
