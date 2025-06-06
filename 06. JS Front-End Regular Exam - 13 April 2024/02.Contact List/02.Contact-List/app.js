@@ -15,9 +15,9 @@ function solve() {
             checkList.innerHTML += `
                 <li>
                     <article>
-                        <p>name: ${name.value}</p>
-                        <p>phone: ${phone.value}</p>
-                        <p>category: ${category.value}</p>
+                        <p>name:${name.value}</p>
+                        <p>phone:${phone.value}</p>
+                        <p>category:${category.value}</p>
                     </article>
                     <div class="buttons">
                         <button class="edit-btn"></button>
@@ -37,9 +37,9 @@ function solve() {
             const li = ev.target.parentNode.parentNode;
             const [pName, pPhone, pCategory] = li.querySelectorAll("article>p");
 
-            name.value = pName.textContent.split(": ")[1];
-            phone.value = pPhone.textContent.split(": ")[1];
-            category.value = pCategory.textContent.split(": ")[1];
+            name.value = pName.textContent.split(":")[1];
+            phone.value = pPhone.textContent.split(":")[1];
+            category.value = pCategory.textContent.split(":")[1];
             li.remove();
         } else if(ev.target.classList.contains("save-btn")) {
             const li = ev.target.parentNode.parentNode;
@@ -47,13 +47,11 @@ function solve() {
             li.lastElementChild.remove();
             li.innerHTML += `<button class="del-btn"></button>`;
             contactList.appendChild(li);
-            // const [pName, pPhone, pCategory] = li.querySelectorAll("article>p");
-            //
-            // name.value = pName.textContent.split(": ")[1];
-            // phone.value = pPhone.textContent.split(": ")[1];
-            // category.value = pCategory.textContent.split(": ")[1];
-            // li.remove();
         }
+    });
+
+    contactList.addEventListener("click", ev => {
+        if(ev.target.classList.contains("del-btn")) ev.target.parentNode.remove();
     });
 }
   
