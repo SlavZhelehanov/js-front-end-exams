@@ -6,6 +6,7 @@ function solve() {
     const phone = document.getElementById("phone");
     const category = document.getElementById("category");
     const checkList = document.getElementById("check-list");
+    const contactList = document.getElementById("contact-list");
 
     addBtn.addEventListener("click", ev => {
         ev.preventDefault();
@@ -40,6 +41,18 @@ function solve() {
             phone.value = pPhone.textContent.split(": ")[1];
             category.value = pCategory.textContent.split(": ")[1];
             li.remove();
+        } else if(ev.target.classList.contains("save-btn")) {
+            const li = ev.target.parentNode.parentNode;
+
+            li.lastElementChild.remove();
+            li.innerHTML += `<button class="del-btn"></button>`;
+            contactList.appendChild(li);
+            // const [pName, pPhone, pCategory] = li.querySelectorAll("article>p");
+            //
+            // name.value = pName.textContent.split(": ")[1];
+            // phone.value = pPhone.textContent.split(": ")[1];
+            // category.value = pCategory.textContent.split(": ")[1];
+            // li.remove();
         }
     });
 }
