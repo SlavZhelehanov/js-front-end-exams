@@ -30,5 +30,17 @@ function solve() {
             category.value = '';
         }
     });
+
+    checkList.addEventListener("click", ev => {
+        if(ev.target.classList.contains("edit-btn")) {
+            const li = ev.target.parentNode.parentNode;
+            const [pName, pPhone, pCategory] = li.querySelectorAll("article>p");
+
+            name.value = pName.textContent.split(": ")[1];
+            phone.value = pPhone.textContent.split(": ")[1];
+            category.value = pCategory.textContent.split(": ")[1];
+            li.remove();
+        }
+    });
 }
   
