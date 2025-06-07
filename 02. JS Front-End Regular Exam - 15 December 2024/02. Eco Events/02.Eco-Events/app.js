@@ -15,16 +15,8 @@ function solve() {
             previewList.innerHTML = `<li class="application">
                 <article>
                     <h4>${email.value}</h4>
-                    <p>
-                        <strong>Event:</strong>
-                        <br>
-                        ${event.value}
-                    </p>
-                    <p>
-                        <strong>Location:</strong>
-                        <br>
-                        ${location.value}
-                    </p>
+                    <p><strong>Event:</strong><br>${event.value}</p>
+                    <p><strong>Location:</strong><br>${location.value}</p>
                 </article>
                 <button class="action-btn edit">edit</button>
                 <button class="action-btn apply">apply</button>
@@ -42,26 +34,19 @@ function solve() {
             const li = e.target.parentElement;
 
             email.value = li.querySelector("h4").textContent;
-            // event.value = li.querySelectorAll("p")[0].innerText.split(":")[1].trim();
-            // location.value = li.querySelectorAll("p")[1].innerText.split(":")[1].trim();
 
-            const applicationItem = document.querySelector('.application');
+            const [pEvent, pLocation] = li.querySelectorAll("article>p");
 
-            // Get all <p> tags inside the application item
-            const paragraphs = applicationItem.querySelectorAll('p');
-
-            event.value = paragraphs[0].childNodes[2].textContent.trim();
-            location.value = paragraphs[1].childNodes[2].textContent.trim();
-
-            previewList.innerHTML = '';
+            event.value = pEvent.textContent.split(':')[1];
+            location.value = pLocation.textContent.split(':')[1];
+            li.remove();
             nextBtn.disabled = false;
         } else if (e.target.classList.contains("apply")) {
             const li = e.target.parentElement;
 
             li.querySelector(".edit").remove();
             li.querySelector(".apply").remove();
-            eventList.innerHTML += li.outerHTML;
-            li.remove();
+            eventList.appendChild(li);
             nextBtn.disabled = false;
         }
     })
