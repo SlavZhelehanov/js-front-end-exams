@@ -63,4 +63,18 @@ gamesList.addEventListener("click", async e => {
         addGameBtn.disabled = true;
         editGameBtn.disabled = false;
     }
+});
+
+editGameBtn.addEventListener("click", async e => {
+    e.preventDefault();
+    if (name.value !== '' && players.value !== '' && type.value !== '') {
+        await fetch(`${API_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name.value, players: players.value, type: type.value, _id: tempId })
+        });
+        name.value = '';
+        players.value = '';
+        type.value = '';
+    }
 })
