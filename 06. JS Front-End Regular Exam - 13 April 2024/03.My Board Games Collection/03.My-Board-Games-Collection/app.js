@@ -62,6 +62,15 @@ gamesList.addEventListener("click", async e => {
         li.remove();
         addGameBtn.disabled = true;
         editGameBtn.disabled = false;
+    } else if (e.target.classList.contains("delete-btn")) {
+        const li = e.target.parentNode.parentNode;
+        tempId = li.id;
+        await fetch(`${API_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        await getGames();
     }
 });
 
@@ -76,5 +85,9 @@ editGameBtn.addEventListener("click", async e => {
         name.value = '';
         players.value = '';
         type.value = '';
+        await getGames();
+        tempId = '';
+        addGameBtn.disabled = false;
+        editGameBtn.disabled = true;
     }
 })
