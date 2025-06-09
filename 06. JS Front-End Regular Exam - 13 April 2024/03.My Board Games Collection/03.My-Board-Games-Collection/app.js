@@ -3,6 +3,7 @@ const API_URL = "http://localhost:3030/jsonstore/games/";
 const gamesList = document.getElementById("games-list");
 const loadGamesBtn = document.getElementById("load-games");
 const addGameBtn = document.getElementById("add-game");
+const editGameBtn = document.getElementById("edit-game");
 const name = document.getElementById("g-name");
 const type = document.getElementById("type");
 const players = document.getElementById("players");
@@ -49,3 +50,17 @@ addGameBtn.addEventListener("click", async e => {
     }
 });
 
+gamesList.addEventListener("click", async e => {
+    if (e.target.classList.contains("change-btn")) {
+        const li = e.target.parentNode.parentNode;
+        const [pName, pPlayers, pType] = li.querySelectorAll(".content>p");
+
+        name.value = pName.textContent;
+        players.value = pPlayers.textContent;
+        type.value = pType.textContent;
+        tempId = li.id;
+        li.remove();
+        addGameBtn.disabled = true;
+        editGameBtn.disabled = false;
+    }
+})
