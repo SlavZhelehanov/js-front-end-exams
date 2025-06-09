@@ -2,6 +2,10 @@ const API_URL = "http://localhost:3030/jsonstore/games/";
 
 const gamesList = document.getElementById("games-list");
 const loadGamesBtn = document.getElementById("load-games");
+const addGameBtn = document.getElementById("add-game");
+const name = document.getElementById("g-name");
+const type = document.getElementById("type");
+const players = document.getElementById("players");
 
 let tempId;
 
@@ -28,3 +32,20 @@ async function getGames() {
 }
 
 loadGamesBtn.addEventListener("click", getGames);
+
+addGameBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (name.value !== '' && players.value !== '' && type.value !== '') {
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: name.value, players: players.value, type: type.value })
+        });
+        name.value = '';
+        players.value = '';
+        type.value = '';
+        await getGames();
+    }
+});
+
