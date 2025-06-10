@@ -25,5 +25,17 @@ function solve() {
             action.value = '';
             person.value = '';
         }
-    })
+    });
+
+    taskList.addEventListener("click", e => {
+        if(e.target.classList.contains("edit")) {
+            const li = e.target.parentNode.parentNode;
+            const [pPlace, pAction, pPerson] = li.querySelectorAll("article>p");
+
+            place.value = pPlace.textContent;
+            action.value = pAction.textContent;
+            person.value = pPerson.textContent;
+            li.remove();
+        }
+    });
 }
