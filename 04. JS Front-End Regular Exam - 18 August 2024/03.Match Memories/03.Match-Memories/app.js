@@ -45,7 +45,7 @@ document.getElementById("load-matches").addEventListener("click", fetchAllMatche
 addMatch.addEventListener("click", async e => {
     e.preventDefault();
 
-    if (host.value != '' && guest.value != '' && score.value != '') {
+    if (host.value !== '' && guest.value !== '' && score.value !== '') {
         try {
             const response = await fetch(API_URL, {
                 method: "POST",
@@ -89,13 +89,15 @@ list.addEventListener("click", async e => {
             headers: { "Content-Type": "application/json" }
         });
         tmpId = '';
-        li.remove();
+        // li.remove();
         await fetchAllMatches();
     }
 });
 
-editMatch.addEventListener("click", async () => {
-    if (host.value != '' && guest.value != '' && score.value != '') {
+editMatch.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (host.value !== '' && guest.value !== '' && score.value !== '') {
         try {
             await fetch(`${API_URL}${tmpId}`, {
                 method: "PUT",

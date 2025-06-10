@@ -46,7 +46,7 @@ addWorkoutBtn.addEventListener("click", async e => {
     const location = document.getElementById("location");
     const date = document.getElementById("date");
 
-    if (workout.value != '' && location.value != '' && date.value != '') {
+    if (workout.value !== '' && location.value !== '' && date.value !== '') {
         await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -89,6 +89,7 @@ list.addEventListener("click", async e => {
         });
 
         e.target.parentElement.remove();
+        await getWorkouts();
     }
 });
 
@@ -98,7 +99,7 @@ editWorkoutBtn.addEventListener("click", async e => {
     const location = document.getElementById("location");
     const date = document.getElementById("date");
 
-    if (workout.value != '' && date.value != '' && location.value != '') {
+    if (workout.value !== '' && date.value !== '' && location.value !== '') {
         await fetch(`${API_URL}${tmpId}`, {
             method: "PUT",
             header: { "Content-Type": "application/json" },

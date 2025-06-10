@@ -94,7 +94,7 @@ list.addEventListener("click", async e => {
                 throw new Error(msg.message);
             }
             
-            li.remove();
+            // li.remove();
             await fetchData();
         } catch (error) { console.error(error); }
     }
