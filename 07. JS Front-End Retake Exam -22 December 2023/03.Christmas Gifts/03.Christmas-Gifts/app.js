@@ -8,6 +8,8 @@ const gift = document.getElementById("gift");
 const forWhom = document.getElementById("for");
 const price = document.getElementById("price");
 
+let tempId;
+
 async function getGifts() {
     const response = await fetch(API_URL);
     const data = await response.json();
@@ -56,8 +58,28 @@ giftsList.addEventListener("click", async e => {
         gift.value = pGift.textContent;
         forWhom.value = pFor.textContent;
         price.value = pPrice.textContent;
+        tempId = li.id;
         li.remove();
         addPresentBtn.disabled = true;
         editPresentBtn.disabled = false;
     }
-})
+});
+
+editPresentBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (gift.value !== '' && forWhom.value !== '' && price.value !== '') {
+        await fetch(`${API_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ gift: gift.value, for: forWhom.value, price: price.value, _id: tempId })
+        });
+        gift.value = '';
+        forWhom.value = '';
+        price.value = '';
+        await getGifts();
+        tempId = '';
+        addPresentBtn.disabled = false;
+        editPresentBtn.disabled = true;
+    }
+});
