@@ -62,6 +62,15 @@ giftsList.addEventListener("click", async e => {
         li.remove();
         addPresentBtn.disabled = true;
         editPresentBtn.disabled = false;
+    } else if (e.target.classList.contains("delete-btn")) {
+        const li = e.target.parentNode.parentNode;
+        tempId = li.id;
+        await fetch(`${API_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        await getGifts();
     }
 });
 
