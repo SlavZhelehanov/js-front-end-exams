@@ -3,6 +3,10 @@ const API_URL = "http://localhost:3030/jsonstore/gifts/";
 const giftsList = document.getElementById("gift-list");
 const loadPresentsBtn = document.getElementById("load-presents");
 const addPresentBtn = document.getElementById("add-present");
+const editPresentBtn = document.getElementById("edit-present");
+const gift = document.getElementById("gift");
+const forWhom = document.getElementById("for");
+const price = document.getElementById("price");
 
 async function getGifts() {
     const response = await fetch(API_URL);
@@ -30,9 +34,6 @@ loadPresentsBtn.addEventListener("click", getGifts);
 
 addPresentBtn.addEventListener("click", async e => {
     e.preventDefault();
-    const gift = document.getElementById("gift");
-    const forWhom = document.getElementById("for");
-    const price = document.getElementById("price");
 
     if (gift.value !== '' && forWhom.value !== '' && price.value !== '') {
         await fetch(API_URL, {
@@ -46,3 +47,17 @@ addPresentBtn.addEventListener("click", async e => {
         await getGifts();
     }
 });
+
+giftsList.addEventListener("click", async e => {
+    if (e.target.classList.contains("change-btn")) {
+        const li = e.target.parentNode.parentNode;
+        const [pGift, pFor, pPrice] = li.querySelectorAll(".content>p");
+
+        gift.value = pGift.textContent;
+        forWhom.value = pFor.textContent;
+        price.value = pPrice.textContent;
+        li.remove();
+        addPresentBtn.disabled = true;
+        editPresentBtn.disabled = false;
+    }
+})
