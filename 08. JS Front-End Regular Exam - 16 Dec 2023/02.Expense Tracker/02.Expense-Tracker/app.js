@@ -4,12 +4,13 @@ function solve() {
     const [expense, amount, date] = document.querySelectorAll("input");
     const addBtn = document.getElementById("add-btn");
     const previewList = document.getElementById("preview-list");
+    const expensesList = document.getElementById("expenses-list");
 
     addBtn.addEventListener("click", e => {
         e.preventDefault();
 
         if(expense.value !== '' && amount.value !== '' && date.value !== '') {
-            previewList.innerHTML += `
+            previewList.innerHTML = `
                 <li class="expense-item">
                     <article>
                         <p>Type: ${expense.value}</p>
@@ -39,6 +40,12 @@ function solve() {
             amount.value = pAmount.textContent.split(": ")[1].split("$")[0];
             date.value = pDate.textContent.split(": ")[1];
             li.remove();
+            addBtn.disabled = false;
+        } else if(e.target.classList.contains("ok")) {
+            const li = e.target.parentNode.parentNode;
+
+            li.querySelector(".buttons").remove();
+            expensesList.appendChild(li);
             addBtn.disabled = false;
         }
     })
