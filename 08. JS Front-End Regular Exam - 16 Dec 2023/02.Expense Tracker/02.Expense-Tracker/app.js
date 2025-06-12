@@ -3,6 +3,7 @@ window.addEventListener("load", solve);
 function solve() {
     const [expense, amount, date] = document.querySelectorAll("input");
     const addBtn = document.getElementById("add-btn");
+    const deleteBtn = document.querySelector(".btn.delete");
     const previewList = document.getElementById("preview-list");
     const expensesList = document.getElementById("expenses-list");
 
@@ -48,5 +49,7 @@ function solve() {
             expensesList.appendChild(li);
             addBtn.disabled = false;
         }
-    })
+    });
+
+    deleteBtn.addEventListener("click", () => { location.reload(); });
 }
