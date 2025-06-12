@@ -29,4 +29,17 @@ function solve() {
             addBtn.disabled = true;
         }
     });
+
+    previewList.addEventListener("click", e => {
+        if(e.target.classList.contains("edit")) {
+            const li = e.target.parentNode.parentNode;
+            const [pExpense, pAmount, pDate] = li.querySelectorAll("article>p");
+
+            expense.value = pExpense.textContent.split(": ")[1];
+            amount.value = pAmount.textContent.split(": ")[1].split("$")[0];
+            date.value = pDate.textContent.split(": ")[1];
+            li.remove();
+            addBtn.disabled = false;
+        }
+    })
 }
