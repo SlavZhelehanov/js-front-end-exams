@@ -44,3 +44,18 @@ addMealBtn.addEventListener("click", async e => {
         await getTasks();
     }
 });
+
+list.addEventListener("click", async e => {
+    if (e.target.classList.contains("change-meal")) {
+        const meal = e.target.parentNode.parentNode;
+        const hFood = meal.querySelector("h2");
+        const [hTIme, hCalories] = meal.querySelectorAll("h3");
+
+        food.value = hFood.textContent;
+        calories.value = hCalories.textContent;
+        time.value = hTIme.textContent;
+        addMealBtn.disabled = true;
+        editMealBtn.disabled = false;
+        meal.remove();
+    }
+})
