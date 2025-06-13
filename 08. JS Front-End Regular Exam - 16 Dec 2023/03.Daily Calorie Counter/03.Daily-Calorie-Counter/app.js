@@ -27,3 +27,20 @@ async function getTasks() {
 }
 
 loadMealsBtn.addEventListener("click", getTasks);
+
+addMealBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (food.value != '' && calories.value != '' && time.value != '') {
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ food: food.value, calories: calories.value, time: time.value })
+        });
+
+        food.value = '';
+        calories.value = '';
+        time.value = '';
+        await getTasks();
+    }
+});
