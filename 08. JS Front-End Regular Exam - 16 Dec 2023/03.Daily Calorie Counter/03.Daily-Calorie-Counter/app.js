@@ -8,13 +8,15 @@ const calories = document.getElementById("calories");
 const time = document.getElementById("time");
 const list = document.getElementById("list");
 
+let tempId;
+
 async function getTasks() {
     const response = await fetch(API_URL);
     const data = await response.json();
 
     list.innerHTML = '';
     for (const [id, { food, calories, time, _id }] of Object.entries(data)) {
-        list.innerHTML += `<div class="meal">
+        list.innerHTML += `<div class="meal" id="${_id}">
               <h2>${food}</h2>
               <h3>${time}</h3>
               <h3>${calories}</h3>
@@ -54,8 +56,29 @@ list.addEventListener("click", async e => {
         food.value = hFood.textContent;
         calories.value = hCalories.textContent;
         time.value = hTIme.textContent;
+        tempId = meal.id;
         addMealBtn.disabled = true;
         editMealBtn.disabled = false;
         meal.remove();
     }
-})
+});
+
+editMealBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (food.value != '' && calories.value != '' && time.value != '') {
+        await fetch(`${API_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ food: food.value, calories: calories.value, time: time.value })
+        });
+
+        food.value = '';
+        calories.value = '';
+        time.value = '';
+        tempId = '';
+        addMealBtn.disabled = false;
+        editMealBtn.disabled = true;
+        await getTasks();
+    }
+});
