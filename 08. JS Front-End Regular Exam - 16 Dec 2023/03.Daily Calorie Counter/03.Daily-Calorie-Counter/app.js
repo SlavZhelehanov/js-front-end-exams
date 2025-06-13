@@ -60,6 +60,16 @@ list.addEventListener("click", async e => {
         addMealBtn.disabled = true;
         editMealBtn.disabled = false;
         meal.remove();
+    } else if (e.target.classList.contains("delete-meal")) {
+        const meal = e.target.parentNode.parentNode;
+
+        tempId = meal.id;
+        await fetch(`${API_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        await getTasks();
     }
 });
 
