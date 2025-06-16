@@ -6,6 +6,7 @@ function solve() {
     const score = document.getElementById("score");
     const round = document.getElementById("round");
     const sureList = document.getElementById("sure-list");
+    const scoreboardList = document.getElementById("scoreboard-list");
 
     addBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -39,6 +40,12 @@ function solve() {
             score.value = pScore.textContent.split(": ")[1];
             round.value = pRound.textContent.split(": ")[1];
             li.remove();
+            addBtn.disabled = false;
+        } else if(e.target.classList.contains("ok")) {
+            const li = e.target.parentNode;
+            li.querySelector(".edit").remove();
+            li.querySelector(".ok").remove();
+            scoreboardList.appendChild(li);
             addBtn.disabled = false;
         }
     });
