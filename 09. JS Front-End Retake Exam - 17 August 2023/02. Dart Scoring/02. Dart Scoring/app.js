@@ -49,5 +49,7 @@ function solve() {
             addBtn.disabled = false;
         }
     });
+
+    document.querySelector(".btn.clear").addEventListener("click", () => { location.reload(); });
 }
   
