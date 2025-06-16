@@ -29,5 +29,18 @@ function solve() {
             addBtn.disabled = true;
         }
     });
+
+    sureList.addEventListener("click", e => {
+        if(e.target.classList.contains("edit")) {
+            const li = e.target.parentNode;
+            const [pPlayer, pScore, pRound] = li.querySelectorAll("article>p");
+
+            player.value = pPlayer.textContent;
+            score.value = pScore.textContent.split(": ")[1];
+            round.value = pRound.textContent.split(": ")[1];
+            li.remove();
+            addBtn.disabled = false;
+        }
+    });
 }
   
