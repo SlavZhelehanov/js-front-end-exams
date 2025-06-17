@@ -62,6 +62,16 @@ list.addEventListener("click", async e => {
         addWeatherBtn.disabled = true;
         editWeatherBtn.disabled = false;
         container.remove();
+    } else if (e.target.classList.contains("delete-btn")) {
+        const container = e.target.parentElement.parentElement;
+
+        tempId = container.id;
+        await fetch(`${API_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        await getTasks();
     }
 });
 

@@ -9,4 +9,4 @@ Solutions to Softuni's JS-Front-End exams
 - [x] 6. JS Front-End Regular Exam - 13 April 2024
 - [x] 7. JS Front-End Retake Exam - 22 December 2023
 - [x] 8. JS Front-End Regular Exam - 16 Dec 2023
-- [ ] 9. JS Front-End Retake Exam - 17 August 2023
+- [x] 9. JS Front-End Retake Exam - 17 August 2023
