@@ -1,9 +1,12 @@
 const API_URL = "http://localhost:3030/jsonstore/tasks/";
 
 const loadHistoryBtn = document.getElementById("load-history");
-const addBtn = document.getElementById("add");
-const input = document.getElementById("input");
+const addWeatherBtn = document.getElementById("add-weather");
+const editWeatherBtn = document.getElementById("edit-weather");
 const list = document.getElementById("list");
+const inputLocation = document.getElementById("location");
+const inputTemperature = document.getElementById("temperature");
+const inputDate = document.getElementById("date");
 
 async function getTasks() {
     const response = await fetch(API_URL);
@@ -26,3 +29,20 @@ async function getTasks() {
 }
 
 loadHistoryBtn.addEventListener("click", getTasks);
+
+addWeatherBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (inputLocation.value !== '' && inputTemperature.value !== '' && inputDate.value !== '') {
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ location: inputLocation.value, temperature: inputTemperature.value, date: inputDate.value })
+        });
+
+        inputLocation.value = '';
+        inputTemperature.value = '';
+        inputDate.value = '';
+        await getTasks();
+    }
+});
