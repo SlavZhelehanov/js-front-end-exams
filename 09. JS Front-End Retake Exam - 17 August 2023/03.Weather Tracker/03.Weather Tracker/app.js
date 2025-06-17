@@ -8,6 +8,8 @@ const inputLocation = document.getElementById("location");
 const inputTemperature = document.getElementById("temperature");
 const inputDate = document.getElementById("date");
 
+let tempId;
+
 async function getTasks() {
     const response = await fetch(API_URL);
     const data = await response.json();
@@ -53,6 +55,7 @@ list.addEventListener("click", async e => {
         const h2Location = container.querySelector("h2").textContent;
         const [h3Date, h3Temperature] = container.querySelectorAll("h3");
 
+        tempId = container.id;
         inputLocation.value = h2Location;
         inputTemperature.value = h3Temperature.textContent;
         inputDate.value = h3Date.textContent;
@@ -60,4 +63,23 @@ list.addEventListener("click", async e => {
         editWeatherBtn.disabled = false;
         container.remove();
     }
-})
+});
+
+editWeatherBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (inputLocation.value !== '' && inputTemperature.value !== '' && inputDate.value !== '') {
+        await fetch(`${API_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ location: inputLocation.value, temperature: inputTemperature.value, date: inputDate.value, _id: tempId })
+        });
+
+        inputLocation.value = '';
+        inputTemperature.value = '';
+        inputDate.value = '';
+        addWeatherBtn.disabled = false;
+        editWeatherBtn.disabled = true;
+        await getTasks();
+    }
+});
