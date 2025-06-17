@@ -46,3 +46,18 @@ addWeatherBtn.addEventListener("click", async e => {
         await getTasks();
     }
 });
+
+list.addEventListener("click", async e => {
+    if (e.target.classList.contains("change-btn")) {
+        const container = e.target.parentElement.parentElement;
+        const h2Location = container.querySelector("h2").textContent;
+        const [h3Date, h3Temperature] = container.querySelectorAll("h3");
+
+        inputLocation.value = h2Location;
+        inputTemperature.value = h3Temperature.textContent;
+        inputDate.value = h3Date.textContent;
+        addWeatherBtn.disabled = true;
+        editWeatherBtn.disabled = false;
+        container.remove();
+    }
+})
