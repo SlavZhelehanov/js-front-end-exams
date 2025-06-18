@@ -28,5 +28,19 @@ function solve() {
             nextBtn.disabled = true;
         }
     });
+
+    previewList.addEventListener("click", e => {
+        if(e.target.classList.contains("edit")) {
+            const li = e.target.parentNode;
+            const pStudent = li.querySelector("h4").textContent;
+            const [pUniversity, pScore] = li.querySelectorAll("article>p");
+
+            student.value = pStudent;
+            university.value = pUniversity.textContent.split(": ")[1];
+            score.value = pScore.textContent.split(": ")[1];
+            li.remove();
+            nextBtn.disabled = false;
+        }
+    })
 }
   
