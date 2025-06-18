@@ -40,7 +40,13 @@ function solve() {
             score.value = pScore.textContent.split(": ")[1];
             li.remove();
             nextBtn.disabled = false;
+        } else if(e.target.classList.contains("apply")) {
+            const li = e.target.parentNode;
+
+            li.querySelector(".edit").remove();
+            li.querySelector(".apply").remove();
+            candidatesList.appendChild(li);
+            nextBtn.disabled = false;
         }
-    })
+    });
 }
-  
