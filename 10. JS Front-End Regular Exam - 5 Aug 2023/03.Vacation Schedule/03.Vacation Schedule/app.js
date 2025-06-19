@@ -59,4 +59,23 @@ list.addEventListener('click', async e => {
         addVacationBtn.disabled = true;
         editVacationBtn.disabled = false;
     }
-})
+});
+
+editVacationBtn.addEventListener('click', async e => {
+    e.preventDefault();
+
+    if (inputDate.value !== '' && inputDays.value !== '' && inputName.value !== '') {
+        await fetch(API_URL + tempId, {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ date: inputDate.value,days: inputDays.value,name: inputName.value })
+        });
+
+        inputDate.value = '';
+        inputDays.value = '';
+        inputName.value = '';
+        addVacationBtn.disabled = false;
+        editVacationBtn.disabled = true;
+        getTasks();
+    }
+});
