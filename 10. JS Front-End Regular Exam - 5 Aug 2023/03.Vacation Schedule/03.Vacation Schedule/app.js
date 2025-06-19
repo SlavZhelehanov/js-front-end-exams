@@ -58,6 +58,19 @@ list.addEventListener('click', async e => {
         div.remove();
         addVacationBtn.disabled = true;
         editVacationBtn.disabled = false;
+    } else if (e.target.classList.contains('done-btn')) {
+        const div = e.target.parentNode;
+
+        tempId = div.id;
+
+        await fetch(API_URL + tempId, {
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        tempId = '';
+        div.remove();
+        getTasks();
     }
 });
 
