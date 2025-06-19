@@ -8,6 +8,8 @@ const inputDate = document.getElementById('from-date');
 const inputDays = document.getElementById('num-days');
 const inputName = document.getElementById('name');
 
+let tempId;
+
 async function getTasks() {
     const response = await fetch(API_URL);
     const data = await response.json();
@@ -42,3 +44,19 @@ addVacationBtn.addEventListener('click', async e => {
         getTasks();
     }
 });
+
+list.addEventListener('click', async e => {
+    if (e.target.classList.contains('change-btn')) {
+        const div = e.target.parentNode;
+        const h2Name = div.querySelector('h2').textContent;
+        const [h3Date, h3Days] = div.querySelectorAll('h3');
+
+        tempId = div.id;
+        inputDate.value = h3Date.textContent;
+        inputDays.value = h3Days.textContent;
+        inputName.value = h2Name;
+        div.remove();
+        addVacationBtn.disabled = true;
+        editVacationBtn.disabled = false;
+    }
+})
