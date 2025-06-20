@@ -27,4 +27,17 @@ function solve() {
             taskContent.value = '';
         }
     });
+
+    reviewList.addEventListener("click", e => {
+        if(e.target.classList.contains("edit")) {
+            const li = e.target.parentNode;
+            const pTitle = li.querySelector("h4").textContent;
+            const [pCategory, pContent] = li.querySelectorAll("article>p");
+
+            taskTitle.value = pTitle;
+            taskCategory.value = pCategory.textContent.split(": ")[1];
+            taskContent.value = pContent.textContent.split(": ")[1];
+            li.remove();
+        }
+    });
 }
