@@ -62,6 +62,16 @@ list.addEventListener("click", async e => {
         container.remove();
         addCourseBtn.disabled = true;
         editCourseBtn.disabled = false;
+    } else if (e.target.classList.contains("finish-btn")) {
+        const container = e.target.parentNode;
+
+        tempId = container.id;
+        await fetch(`${APPI_URL}${tempId}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
+        tempId = '';
+        await getCourses();
     }
 });
 
