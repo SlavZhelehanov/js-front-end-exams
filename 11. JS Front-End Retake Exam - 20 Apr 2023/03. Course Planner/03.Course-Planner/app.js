@@ -2,6 +2,11 @@ const APPI_URL = "http://localhost:3030/jsonstore/tasks/";
 
 const list = document.getElementById("list");
 const loadCoursesBtn = document.getElementById("load-course");
+const addCourseBtn = document.getElementById("add-course");
+const courseName = document.getElementById("course-name");
+const courseType = document.getElementById("course-type");
+const courseDescription = document.getElementById("description");
+const teacherName = document.getElementById("teacher-name");
 
 async function getCourses() {
     const response = await fetch(APPI_URL);
@@ -22,3 +27,21 @@ async function getCourses() {
 }
 
 loadCoursesBtn.addEventListener("click", getCourses);
+
+addCourseBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (courseName.value !== '' && courseType.value !== '' && courseDescription.value !== '' && teacherName.value !== '') {
+        await fetch(APPI_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: courseName.value, teacher: teacherName.value, type: courseType.value, description: courseDescription.value })
+        });
+
+        courseName.value = '';
+        courseType.value = '';
+        courseDescription.value = '';
+        teacherName.value = '';
+        await getCourses();
+    }
+});
