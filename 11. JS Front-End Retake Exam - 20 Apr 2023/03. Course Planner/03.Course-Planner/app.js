@@ -3,10 +3,13 @@ const APPI_URL = "http://localhost:3030/jsonstore/tasks/";
 const list = document.getElementById("list");
 const loadCoursesBtn = document.getElementById("load-course");
 const addCourseBtn = document.getElementById("add-course");
+const editCourseBtn = document.getElementById("edit-course");
 const courseName = document.getElementById("course-name");
 const courseType = document.getElementById("course-type");
 const courseDescription = document.getElementById("description");
 const teacherName = document.getElementById("teacher-name");
+
+let tempId;
 
 async function getCourses() {
     const response = await fetch(APPI_URL);
@@ -45,3 +48,19 @@ addCourseBtn.addEventListener("click", async e => {
         await getCourses();
     }
 });
+
+list.addEventListener("click", async e => {
+    if (e.target.classList.contains("edit-btn")) {
+        const container = e.target.parentNode;
+        const [h2Title, h3Teacher, h3Type, h4Description] = container.querySelectorAll("h2, h3, h3, h4");
+
+        courseName.value = h2Title.textContent;
+        courseType.value = h3Type.textContent;
+        courseDescription.value = h4Description.textContent;
+        teacherName.value = h3Teacher.textContent;
+        tempId = container.id;
+        container.remove();
+        addCourseBtn.disabled = true;
+        editCourseBtn.disabled = false;
+    }
+})
