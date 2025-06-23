@@ -63,4 +63,24 @@ list.addEventListener("click", async e => {
         addCourseBtn.disabled = true;
         editCourseBtn.disabled = false;
     }
-})
+});
+
+editCourseBtn.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (courseName.value !== '' && courseType.value !== '' && courseDescription.value !== '' && teacherName.value !== '') {
+        await fetch(`${APPI_URL}${tempId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: courseName.value, teacher: teacherName.value, type: courseType.value, description: courseDescription.value, _id: tempId })
+        });
+
+        courseName.value = '';
+        courseType.value = '';
+        courseDescription.value = '';
+        teacherName.value = '';
+        addCourseBtn.disabled = false;
+        editCourseBtn.disabled = true;
+        await getCourses();
+    }
+});
