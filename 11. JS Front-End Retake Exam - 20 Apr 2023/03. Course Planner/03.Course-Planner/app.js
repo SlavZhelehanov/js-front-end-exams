@@ -1,0 +1,24 @@
+const APPI_URL = "http://localhost:3030/jsonstore/tasks/";
+
+const list = document.getElementById("list");
+const loadCoursesBtn = document.getElementById("load-course");
+
+async function getCourses() {
+    const response = await fetch(APPI_URL);
+    const data = await response.json();
+
+    for (const [id, { description, teacher, title, type, _id }] of Object.entries(data)) {
+        list.innerHTML += `
+        <div class="container" id="${_id}">
+            <h2>${title}</h2>
+            <h3>${teacher}</h3>
+            <h3>${type}</h3>
+            <h4>${description}</h4>
+            <button class="edit-btn">Edit Course</button>
+            <button class="finish-btn">Finish Course</button>
+        </div>
+        `;
+    }
+}
+
+loadCoursesBtn.addEventListener("click", getCourses);
