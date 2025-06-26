@@ -31,7 +31,6 @@ function solve() {
             }
 
             totalSprintPoints.innerHTML = "Total Points " + totalPoints + "pts";
-            console.log(totalSprintPoints.textContent)
             tasksNumber++;
             tasksSection.innerHTML += `
             <article id="task-${tasksNumber}" class="task-card">
@@ -50,6 +49,34 @@ function solve() {
             label.value = '';
             points.value = '';
             assignee.value = '';
+        }
+    });
+
+    tasksSection.addEventListener('click', e => {
+        if(e.target.tagName === 'BUTTON') {
+            const totalSprintPoints = document.getElementById('total-sprint-points');
+            const article = e.target.parentElement.parentElement;
+
+            let totalPoints;
+            let labelTextArr = article.childNodes[1].textContent.split(' ');
+
+            labelTextArr.pop();
+            label.value = labelTextArr.join(' ');
+            title.value = article.querySelector('.task-card-title').textContent;
+            description.value = article.querySelector('.task-card-description').textContent;
+            points.value = article.querySelector('.task-card-points').textContent.split(' ')[2];
+            totalPoints = +totalSprintPoints.textContent.split(' ').filter(x => x.includes('pts'))[0].split('pts')[0] - +points.value;
+            totalSprintPoints.innerHTML = "Total Points " + totalPoints + "pts";
+            assignee.value = article.querySelector('.task-card-assignee').textContent.split(' ')[2];
+            article.remove();
+            document.getElementById('task-id').value = tasksNumber;
+            createTaskBtn.disabled = true;
+            deleteTaskBtn.disabled = false;
+            label.disabled = true;
+            title.disabled = true;
+            description.disabled = true;
+            points.disabled = true;
+            assignee.disabled = true;
         }
     });
 }
