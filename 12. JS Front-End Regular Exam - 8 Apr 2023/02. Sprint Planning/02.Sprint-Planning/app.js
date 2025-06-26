@@ -54,10 +54,8 @@ function solve() {
 
     tasksSection.addEventListener('click', e => {
         if(e.target.tagName === 'BUTTON') {
-            const totalSprintPoints = document.getElementById('total-sprint-points');
             const article = e.target.parentElement.parentElement;
 
-            let totalPoints;
             let labelTextArr = article.childNodes[1].textContent.split(' ');
 
             labelTextArr.pop();
@@ -65,8 +63,6 @@ function solve() {
             title.value = article.querySelector('.task-card-title').textContent;
             description.value = article.querySelector('.task-card-description').textContent;
             points.value = article.querySelector('.task-card-points').textContent.split(' ')[2];
-            totalPoints = +totalSprintPoints.textContent.split(' ').filter(x => x.includes('pts'))[0].split('pts')[0] - +points.value;
-            totalSprintPoints.innerHTML = "Total Points " + totalPoints + "pts";
             assignee.value = article.querySelector('.task-card-assignee').textContent.split(' ')[2];
             article.remove();
             document.getElementById('task-id').value = tasksNumber;
@@ -78,5 +74,26 @@ function solve() {
             points.disabled = true;
             assignee.disabled = true;
         }
+    });
+
+    deleteTaskBtn.addEventListener('click', e => {
+        e.preventDefault();
+        const totalSprintPoints = document.getElementById('total-sprint-points');
+        const totalPoints = +totalSprintPoints.textContent.split(' ').filter(x => x.includes('pts'))[0].split('pts')[0] - +points.value;
+
+        totalSprintPoints.innerHTML = "Total Points " + totalPoints + "pts";
+        label.disabled = false;
+        title.disabled = false;
+        description.disabled = false;
+        points.disabled = false;
+        assignee.disabled = false;
+        createTaskBtn.disabled = false;
+        deleteTaskBtn.disabled = true;
+        label.value = '';
+        title.value = '';
+        description.value = '';
+        points.value = '';
+        assignee.value = '';
+        document.getElementById('task-id').value = '';
     });
 }
