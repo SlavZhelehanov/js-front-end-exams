@@ -3,10 +3,15 @@ function attachEvents() {
     const API_URL = "http://localhost:3030/jsonstore/tasks/";
 
     const loadBoardBtn = document.getElementById('load-board-btn');
+    const createTaskBtn = document.getElementById('create-task-btn');
+    const inputTitle = document.getElementById('title');
+    const inputDescription = document.getElementById('description');
     const todoSection = document.querySelector("#todo-section>ul");
     const inProgressSection = document.querySelector("#in-progress-section>ul");
     const codeReviewSection = document.querySelector("#code-review-section>ul");
     const doneSection = document.querySelector("#done-section>ul");
+
+    let tempId;
 
     async function getTasks() {
         const response = await fetch(API_URL);
@@ -51,6 +56,22 @@ function attachEvents() {
     }
 
     loadBoardBtn.addEventListener("click", getTasks);
+
+    createTaskBtn.addEventListener("click", async e => {
+        e.preventDefault();
+
+        if (inputTitle.value !== "" || inputDescription.value !== "") {
+            await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ title: inputTitle.value, description: inputDescription.value, status: "ToDo" })
+            });
+
+            inputTitle.value = "";
+            inputDescription.value = "";
+            getTasks();
+        }
+    });
 }
 
 attachEvents();
