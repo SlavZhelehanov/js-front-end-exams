@@ -6,6 +6,7 @@ function attachEvents() {
     const createTaskBtn = document.getElementById('create-task-btn');
     const inputTitle = document.getElementById('title');
     const inputDescription = document.getElementById('description');
+    const boardSection = document.getElementById('board-section');
     const todoSection = document.querySelector("#todo-section>ul");
     const inProgressSection = document.querySelector("#in-progress-section>ul");
     const codeReviewSection = document.querySelector("#code-review-section>ul");
@@ -71,6 +72,43 @@ function attachEvents() {
             inputDescription.value = "";
             getTasks();
         }
+    });
+
+    boardSection.addEventListener("click", async e => {
+        let tempStatus;
+
+        if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to In Progress") {
+            const li = e.target.parentElement;
+
+            li.querySelector("button").textContent = "Move to Code Review";
+            tempId = li.id;
+            tempStatus = "In Progress";
+            inProgressSection.appendChild(li);
+        } // else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Code Review") {
+        //     const li = e.target.parentElement;
+        //
+        //     tempId = li.id;
+        //     tempStatus = "Code Review";
+        //     codeReviewSection.appendChild(li);
+        // } else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Done") {
+        //     const li = e.target.parentElement;
+        //
+        //     tempId = li.id;
+        //     tempStatus = "Done";
+        //     doneSection.appendChild(li);
+        // }
+
+        if (tempId !== undefined) {
+            await fetch(API_URL + tempId, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: tempStatus })
+            });
+            tempId = undefined;
+            getTasks();
+        }
+
+
     });
 }
 
