@@ -84,13 +84,14 @@ function attachEvents() {
             tempId = li.id;
             tempStatus = "In Progress";
             inProgressSection.appendChild(li);
-        } // else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Code Review") {
-        //     const li = e.target.parentElement;
-        //
-        //     tempId = li.id;
-        //     tempStatus = "Code Review";
-        //     codeReviewSection.appendChild(li);
-        // } else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Done") {
+        } else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Code Review") {
+            const li = e.target.parentElement;
+
+            li.querySelector("button").textContent = "Move to Done";
+            tempId = li.id;
+            tempStatus = "Code Review";
+            codeReviewSection.appendChild(li);
+        } // else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Done") {
         //     const li = e.target.parentElement;
         //
         //     tempId = li.id;
