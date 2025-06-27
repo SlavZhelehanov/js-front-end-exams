@@ -98,9 +98,18 @@ function attachEvents() {
             tempId = li.id;
             tempStatus = "Done";
             doneSection.appendChild(li);
+        } else if (e.target.tagName === "BUTTON" && e.target.textContent === "Close") {
+            const li = e.target.parentElement;
+
+            tempId = li.id;
+            await fetch(API_URL + tempId, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            });
+            getTasks();
         }
 
-        if (tempId !== undefined) {
+        if (tempStatus !== undefined) {
             await fetch(API_URL + tempId, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
