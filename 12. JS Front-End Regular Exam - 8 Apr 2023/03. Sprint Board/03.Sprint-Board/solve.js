@@ -91,13 +91,14 @@ function attachEvents() {
             tempId = li.id;
             tempStatus = "Code Review";
             codeReviewSection.appendChild(li);
-        } // else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Done") {
-        //     const li = e.target.parentElement;
-        //
-        //     tempId = li.id;
-        //     tempStatus = "Done";
-        //     doneSection.appendChild(li);
-        // }
+        } else if (e.target.tagName === "BUTTON" && e.target.textContent === "Move to Done") {
+            const li = e.target.parentElement;
+
+            li.querySelector("button").textContent = "Close";
+            tempId = li.id;
+            tempStatus = "Done";
+            doneSection.appendChild(li);
+        }
 
         if (tempId !== undefined) {
             await fetch(API_URL + tempId, {
