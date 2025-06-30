@@ -2,6 +2,7 @@ window.addEventListener('load', solve);
 
 function solve() {
     const allHitsContainer = document.querySelector('#all-hits>.all-hits-container');
+    const savedContainer = document.querySelector('#saved-hits>.saved-container');
     const [genre, name, author, date] = document.querySelectorAll('input');
     const addBtn = document.querySelector('#add-btn');
     const totalLikes = document.querySelector('#total-likes p');
@@ -31,6 +32,14 @@ function solve() {
             e.target.disabled = true;
             const [txt, lks] = totalLikes.textContent.split(': ');
             totalLikes.textContent = txt + ": " + (Number(lks) + 1);
+        } else if(e.target.classList.contains('save-btn')) {
+            const hitsInfo = e.target.parentNode;
+
+            hitsInfo.querySelector('.save-btn').remove();
+            hitsInfo.querySelector('.like-btn').remove();
+            hitsInfo.querySelector('.delete-btn').remove();
+            hitsInfo.innerHTML += `<button class="delete-btn">Delete</button>`;
+            savedContainer.appendChild(hitsInfo);
         }
     });
 }
