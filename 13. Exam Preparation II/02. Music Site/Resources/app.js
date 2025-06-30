@@ -12,6 +12,7 @@ function solve() {
 
         if(genre.value !== '' && name.value !== '' && author.value !== '' && date.value !== '') {
             allHitsContainer.innerHTML += `<div class="hits-info">
+            <img src="./static/img/img.png">
             <h2>Genre: ${genre.value}</h2>
             <h2>Name: ${name.value}</h2>
             <h2>Author: ${author.value}</h2>
@@ -37,9 +38,15 @@ function solve() {
 
             hitsInfo.querySelector('.save-btn').remove();
             hitsInfo.querySelector('.like-btn').remove();
-            hitsInfo.querySelector('.delete-btn').remove();
-            hitsInfo.innerHTML += `<button class="delete-btn">Delete</button>`;
             savedContainer.appendChild(hitsInfo);
+        } else if(e.target.classList.contains('delete-btn')) {
+            e.target.parentNode.remove();
+        }
+    });
+
+    savedContainer.addEventListener('click', e => {
+        if(e.target.classList.contains('delete-btn')) {
+            e.target.parentNode.remove();
         }
     });
 }
