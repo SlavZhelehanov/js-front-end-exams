@@ -4,6 +4,7 @@ function solve() {
     const allHitsContainer = document.querySelector('#all-hits>.all-hits-container');
     const [genre, name, author, date] = document.querySelectorAll('input');
     const addBtn = document.querySelector('#add-btn');
+    const totalLikes = document.querySelector('#total-likes p');
 
     addBtn.addEventListener('click', e => {
         e.preventDefault();
@@ -22,6 +23,14 @@ function solve() {
             name.value = '';
             author.value = '';
             date.value = '';
+        }
+    });
+
+    allHitsContainer.addEventListener('click', e => {
+        if(e.target.classList.contains('like-btn')) {
+            e.target.disabled = true;
+            const [txt, lks] = totalLikes.textContent.split(': ');
+            totalLikes.textContent = txt + ": " + (Number(lks) + 1);
         }
     });
 }
