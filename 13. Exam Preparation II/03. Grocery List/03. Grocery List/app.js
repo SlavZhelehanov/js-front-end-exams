@@ -52,5 +52,16 @@ tbody.addEventListener("click", async e => {
             headers: { "Content-Type": "application/json" }
         });
         fetchData();
+    } else if (e.target.classList.contains("update")) {
+        const tr = e.target.parentNode.parentNode;
+        const tdName = tr.querySelector(".name");
+        const tdPrice = tr.querySelector(".product-price");
+        const tdCount = tr.querySelector(".count-product");
+
+        tempId = tr.id;
+        inputProduct.value = tdName.textContent;
+        inputPrice.value = tdPrice.textContent;
+        inputCount.value = tdCount.textContent;
+        tr.remove();
     }
 });
