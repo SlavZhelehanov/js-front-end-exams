@@ -1,6 +1,10 @@
 const API_URL = "http://localhost:3030/jsonstore/grocery/";
 
 const loadProductsBtn = document.getElementById("load-product");
+const addProduct = document.getElementById("add-product");
+const inputProduct = document.getElementById("product");
+const inputPrice = document.getElementById("price");
+const inputCount = document.getElementById("count");
 const tbody = document.getElementById("tbody");
 
 async function fetchData() {
@@ -16,4 +20,21 @@ async function fetchData() {
 loadProductsBtn.addEventListener("click", e => {
     e.preventDefault();
     fetchData();
+});
+
+addProduct.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (inputProduct.value !== "" && inputPrice.value !== "" && inputCount.value !== "") {
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({product: inputProduct.value, count: inputCount.value, price: inputPrice.value})
+        });
+
+        inputProduct.value = "";
+        inputPrice.value = "";
+        inputCount.value = "";
+        fetchData();
+    }
 });
