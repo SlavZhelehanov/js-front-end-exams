@@ -7,6 +7,8 @@ const inputPrice = document.getElementById("price");
 const inputCount = document.getElementById("count");
 const tbody = document.getElementById("tbody");
 
+let tempId;
+
 async function fetchData() {
     const response = await fetch(API_URL);
     const data = await response.json();
@@ -35,6 +37,20 @@ addProduct.addEventListener("click", async e => {
         inputProduct.value = "";
         inputPrice.value = "";
         inputCount.value = "";
+        fetchData();
+    }
+});
+
+tbody.addEventListener("click", async e => {
+    e.preventDefault();
+
+    if (e.target.classList.contains("delete")) {
+        const id = e.target.parentNode.parentNode.id;
+
+        await fetch(API_URL + id, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        });
         fetchData();
     }
 });
