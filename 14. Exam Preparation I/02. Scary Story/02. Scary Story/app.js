@@ -55,6 +55,9 @@ function solve() {
             age.value = pAge;
             formBtn.disabled = false;
             li.remove();
-        }
+        } else if (e.target.classList.contains("delete-btn")) {
+            e.target.parentNode.remove();
+            formBtn.disabled = false;
+        } // else if (e.target.classList.contains("save-btn")) {}
     });
 }
