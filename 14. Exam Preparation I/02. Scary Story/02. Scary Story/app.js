@@ -11,6 +11,8 @@ function solve() {
     const previewList = document.getElementById("preview-list");
     const main = document.getElementById("main");
 
+    let firstNameValue, lastNameValue, ageValue, storyTitleValue, genreValue, storyValue;
+
     formBtn.addEventListener("click", e => {
         e.preventDefault();
 
@@ -27,6 +29,13 @@ function solve() {
 <button class="edit-btn">Edit Story</button>
 <button class="delete-btn">Delete Story</button>
 </li>`;
+            firstNameValue = firstName.value;
+            lastNameValue = lastName.value;
+            genreValue = genre.value;
+            storyValue = story.value;
+            storyTitleValue = storyTitle.value;
+            ageValue = age.value;
+
             firstName.value = '';
             lastName.value = '';
             genre.value = '';
@@ -41,21 +50,14 @@ function solve() {
         e.preventDefault();
 
         if (e.target.classList.contains("edit-btn")) {
-            const li = e.target.parentNode;
-            const [_, h4FirstName, h4LastName] = li.childNodes[1].childNodes[1].textContent.trim().split(' ');
-            const pAge = li.childNodes[1].childNodes[3].textContent.trim().split(' ')[1];
-            const pStoryTitle = li.childNodes[1].childNodes[5].textContent.trim().split(' ')[1];
-            const pGenre =  li.childNodes[1].childNodes[7].textContent.trim().split(' ')[1];
-            const pStory = li.childNodes[1].childNodes[9].textContent.trim();
-
-            firstName.value = h4FirstName;
-            lastName.value = h4LastName;
-            genre.value = pGenre;
-            story.value = pStory;
-            storyTitle.value = pStoryTitle;
-            age.value = pAge;
+            firstName.value = firstNameValue;
+            lastName.value = lastNameValue;
+            genre.value = genreValue;
+            story.value = storyValue;
+            storyTitle.value = storyTitleValue;
+            age.value = ageValue;
             formBtn.disabled = false;
-            li.remove();
+            e.target.parentNode.remove();
         } else if (e.target.classList.contains("delete-btn")) {
             e.target.parentNode.remove();
             formBtn.disabled = false;
