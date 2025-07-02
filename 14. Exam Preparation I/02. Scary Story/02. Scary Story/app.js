@@ -36,4 +36,25 @@ function solve() {
         }
     });
 
+    previewList.addEventListener("click", e => {
+        e.preventDefault();
+
+        if (e.target.classList.contains("edit-btn")) {
+            const li = e.target.parentNode;
+            const [_, h4FirstName, h4LastName] = li.childNodes[1].childNodes[1].textContent.trim().split(' ');
+            const pAge = li.childNodes[1].childNodes[3].textContent.trim().split(' ')[1];
+            const pStoryTitle = li.childNodes[1].childNodes[5].textContent.trim().split(' ')[1];
+            const pGenre =  li.childNodes[1].childNodes[7].textContent.trim().split(' ')[1];
+            const pStory = li.childNodes[1].childNodes[9].textContent.trim();
+
+            firstName.value = h4FirstName;
+            lastName.value = h4LastName;
+            genre.value = pGenre;
+            story.value = pStory;
+            storyTitle.value = pStoryTitle;
+            age.value = pAge;
+            formBtn.disabled = false;
+            li.remove();
+        }
+    });
 }
