@@ -9,6 +9,7 @@ function solve() {
     const story = document.getElementById("story");
     const formBtn = document.getElementById("form-btn");
     const previewList = document.getElementById("preview-list");
+    const main = document.getElementById("main");
 
     formBtn.addEventListener("click", e => {
         e.preventDefault();
@@ -58,6 +59,6 @@ function solve() {
         } else if (e.target.classList.contains("delete-btn")) {
             e.target.parentNode.remove();
             formBtn.disabled = false;
-        } // else if (e.target.classList.contains("save-btn")) {}
+        } else if (e.target.classList.contains("save-btn")) main.innerHTML = "<h1>Your scary story is saved!</h1>"
     });
 }
