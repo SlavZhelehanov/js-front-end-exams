@@ -7,6 +7,8 @@ function attachEvents() {
     const todoList = document.getElementById("todo-list");
     const title = document.getElementById("title");
 
+    let tempId;
+
     async function getTasks() {
         const response = await fetch(API_URL);
         const data = await response.json();
@@ -14,7 +16,7 @@ function attachEvents() {
         todoList.innerHTML = "";
 
         for (const [entry, { name, _id }] of Object.entries(data)) {
-            todoList.innerHTML += `<li><span>${name}</span><button>Remove</button><button>Edit</button></li>`;
+            todoList.innerHTML += `<li id="${_id}"><span>${name}</span><button>Remove</button><button>Edit</button></li>`;
         }
     }
 
@@ -34,6 +36,20 @@ function attachEvents() {
             });
 
             title.value = "";
+            await getTasks();
+        }
+    });
+
+    todoList.addEventListener("click", async event => {
+        event.preventDefault();
+
+        if (event.target.tagName === "BUTTON" && event.target.textContent === "Remove") {
+            tempId = event.target.parentNode.id;
+
+            await fetch(API_URL + tempId, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" }
+            });
             await getTasks();
         }
     });
