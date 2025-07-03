@@ -50,7 +50,18 @@ function attachEvents() {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
             });
+            tempId = '';
             await getTasks();
+        } else if (event.target.tagName === "BUTTON" && event.target.textContent === "Edit") {
+            const li = event.target.parentNode;
+            const span = li.querySelector("span");
+            const input = document.createElement("input");
+
+            input.type = "text";
+            input.value = span.textContent;
+            event.target.textContent = "Submit";
+            li.replaceChild(input, span);
+            input.focus();
         }
     });
 }
