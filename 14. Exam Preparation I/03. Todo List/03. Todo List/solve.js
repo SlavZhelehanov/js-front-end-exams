@@ -50,18 +50,28 @@ function attachEvents() {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" }
             });
-            tempId = '';
+            tempId = null;
             await getTasks();
         } else if (event.target.tagName === "BUTTON" && event.target.textContent === "Edit") {
             const li = event.target.parentNode;
             const span = li.querySelector("span");
             const input = document.createElement("input");
 
+            tempId = li.id;
             input.type = "text";
             input.value = span.textContent;
             event.target.textContent = "Submit";
             li.replaceChild(input, span);
             input.focus();
+        } else if (event.target.tagName === "BUTTON" && event.target.textContent === "Submit" && tempId) {
+            await fetch(API_URL + tempId, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: event.target.parentNode.querySelector("input").value })
+            });
+
+            tempId = null;
+            await getTasks();
         }
     });
 }
